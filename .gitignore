@@ -1,0 +1,5 @@
+# egg file
+loss_nli.egg-info/
+
+# data folder
+data/
