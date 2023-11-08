@@ -19,7 +19,7 @@ bash download.sh
 To load the dataset, please run:
 
 ```python
-dataset = data.dataset_name(tokenizer_name="<model_name>").get_dataset()
+dataset = data.dataset_name(tokenizer_name="<model_name>", max_length=<max_length>).get_dataset()
 Ex:
-dataset = data.ViNLI(tokenizer_name="xlmr").get_dataset()
+dataset = data.ViNLI(tokenizer_name="xlmr", max_length=256).get_dataset()
 ```
