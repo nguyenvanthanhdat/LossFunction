@@ -15,7 +15,8 @@ setup(
     version='0.1.0',
     description='Empirical study of loss functions for inference methods based on language models',
     long_description='readme',
-    python_requires='>=3.11',
+    python_requires='>=3.10',
+    package_dir={"": "src"},
     packages=find_packages(exclude=('data')),
     install_requires=reqs.strip().split('\n'),
 )

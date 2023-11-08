@@ -1,9 +1,9 @@
 # egg file
-loss_nli.egg-info/
+src/loss_nli.egg-info/*
 
 # data folder
 /data/
-loss_nli/data/__pycache__/*
+src/loss_nli/data/__pycache__/*
 
 # notebook folder
 notebooks/

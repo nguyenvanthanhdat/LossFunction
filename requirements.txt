@@ -1,3 +1,6 @@
 gdown
+cpython
+datasets
 torch
-transformers
+huggingface_hub
+transformers[torch]
