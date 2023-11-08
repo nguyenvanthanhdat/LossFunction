@@ -4,6 +4,7 @@ loss_nli-0.1.0-py3.11.egg
 
 # data folder
 /data/
+/data_tokenized/
 /src/loss_nli/data/__pycache__/
 
 # notebook folder
@@ -11,3 +12,5 @@ notebooks/
 
 # build folder
 build/
+
+dist/
