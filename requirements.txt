@@ -1,5 +1,5 @@
-gdown
-cpython
+gdown 
+sentencepiece
 datasets
 torch
 huggingface_hub
