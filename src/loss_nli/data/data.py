@@ -124,7 +124,7 @@ class MultiNLI(BaseDataset):
             dataset = DatasetDict.load_from_disk(self.data_path)
         return dataset['train'], dataset['dev_matched'], dataset['dev_mismatched']
     
-class Contract_nli(BaseDataset):
+class Contract_NLI(BaseDataset):
     def __init__(self, tokenizer_name, max_length):
         self.tokenize_name = tokenizer_name
         self.max_length = max_length
@@ -135,7 +135,7 @@ class Contract_nli(BaseDataset):
             path = dataset_path_dict['Contract_NLI'].format(split=split)
             data_files[split] = path
             print(path)
-        dataset = load_dataset("json", data_files=data_files)
+        dataset = load_dataset("json", data_files=data_files, streaming=True)
         return dataset
     def tokenize(self) -> Tuple[Dataset]:
         dataset = self.load_from_disk()
