@@ -12,12 +12,12 @@ def preprocess_fn(sent1, sent2, label):
     return new_sent, label
 tokenizer = AutoTokenizer.from_pretrained("xlm-roberta-base")
 
-contract_nli =data.Contract_nli(tokenizer_name='xlmr', max_length= 256)
+contract_nli =data.Contract_NLI(tokenizer_name='xlmr', max_length= 256)
 contract_nli_datadict= contract_nli.load_from_disk()
 print('Datadict: ',contract_nli_datadict)
 contract_nli_tokenize = contract_nli.tokenize()
 print("Tokenized: ",contract_nli_tokenize)
-contract_nli.save_disk()
+# contract_nli.save_disk()
 contract_nli_dataset = contract_nli.get_dataset()
 print('Dataset: ',contract_nli_dataset)
 vinli = data.ViNLI(

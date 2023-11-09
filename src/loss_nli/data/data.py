@@ -2,7 +2,7 @@ from .base import *
 from datasets import load_dataset
 from transformers import AutoTokenizer
 import os
-
+import pandas as pd
 dataset_path_dict = {
     'ViNLI': 'data/vinli/UIT_ViNLI_1.0_{split}.jsonl',
     'SNLI': 'data/snli/snli_1.0_{split}.jsonl',
@@ -130,19 +130,35 @@ class Contract_NLI(BaseDataset):
         self.max_length = max_length
         self.data_path = f'data_tokenized/{self.tokenize_name}/contract_nli/{max_length}'
     def load_from_disk(self):
-        data_files = {}
+        def parse_file(file_name):
+            with open(file_name) as f:
+                data = json.load(f)
+            documents = data['documents']
+            labels = data['labels']
+            rows = []
+            for doc in documents:
+                doc_id = doc['id']
+                text = doc['text']
+                for annotation_key in doc['annotation_sets'][0]['annotations']:
+                    hyp_key = annotation_key
+                    label = doc['annotation_sets'][0]['annotations'][hyp_key]['choice']
+                    spans = doc['annotation_sets'][0]['annotations'][hyp_key]['spans']
+                    hyp = labels[hyp_key]['hypothesis']
+                    rows.append([doc_id, text, hyp, label, spans])
+            df = pd.DataFrame(rows, columns=['doc_id', 'premise', 'hypothesis', 'label', 'spans'])
+            return df
+        datasetdict = DatasetDict()
         for split in split_dict:
             path = dataset_path_dict['Contract_NLI'].format(split=split)
-            data_files[split] = path
-            print(path)
-        dataset = load_dataset("json", data_files=data_files, streaming=True)
-        return dataset
+            datasetdict[split]= Dataset.from_dict(parse_file(path))
+        return datasetdict
     def tokenize(self) -> Tuple[Dataset]:
         dataset = self.load_from_disk()
         tokenizer = AutoTokenizer.from_pretrained(tokenizer_dict[self.tokenize_name])
-        dataset = dataset.map(lambda examples: tokenizer(
-            examples["sentence2"], 
-            examples["sentence1"],
+        dataset = dataset.map(lambda examples: 
+            tokenizer(
+            examples["premise"], 
+            examples["hypothesis"],
             max_length=self.max_length,
             padding='max_length',
             truncation=True,
