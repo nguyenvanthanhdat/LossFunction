@@ -20,20 +20,27 @@ label_dict = {
     "other": 3,
     "-": -1
 }
-
+contract_label_dict = {
+    "Contradiction": 0,
+    "NotMentioned": 1,
+    "Entailment":2,
+}
 
 class ViNLI(BaseDataset):
-    def __init__(self, tokenizer_name, max_length):
+    def __init__(self, tokenizer_name, max_length, load_all_labels=False):
         self.tokenize_name = tokenizer_name
         self.max_length = max_length
         self.data_path = f'data_tokenized/{self.tokenize_name}/vinli/{max_length}'
+        self.load_all_labels = load_all_labels
 
     def load_from_disk(self):
         data_files = {}
         for split in split_dict:
             path = dataset_path_dict['ViNLI'].format(split=split)
             data_files[split] = path
-        dataset = load_dataset("json", data_files=data_files)
+        dataset = load_dataset("json", data_files=data_files).filter(lambda example: example['gold_label'] != '-')
+        if not self.load_all_labels:
+            dataset = dataset.filter(lambda example: example['gold_label'] != 'other')
         return dataset
 
     def tokenize(self) -> Tuple[Dataset]:
@@ -51,7 +58,6 @@ class ViNLI(BaseDataset):
     def save_disk(self):
         dataset = self.tokenize()
         dataset.save_to_disk(self.data_path)
-    
     
     def get_dataset(self) -> Tuple[Dataset]:
         if not os.path.isdir(self.data_path):
@@ -88,12 +94,12 @@ class SNLI(BaseDataset):
         dataset = self.tokenize()
         dataset.save_to_disk(self.data_path)
     def get_dataset(self) -> Tuple[Dataset]:
-        if os.path.isdir(self.data_path):
-            dataset = DatasetDict.load_from_disk(self.data_path)
-        else:
+        if not os.path.isdir(self.data_path):
             self.save_disk()
-            dataset = DatasetDict.load_from_disk(self.data_path)
-        return dataset['train'], dataset['dev'], dataset['test']
+        dataset = DatasetDict.load_from_disk(self.data_path)
+        dataset = dataset.map(lambda example: {"labels": label_dict[example["gold_label"]]}, remove_columns=["gold_label"])
+        dataset = dataset.remove_columns(['captionID', 'pairID','sentence1', 'sentence1_binary_parse', 'sentence1_parse', 'sentence2', 'sentence2_binary_parse', 'sentence2_parse', 'annotator_labels'])
+        return dataset
     
 class MultiNLI(BaseDataset):
     def __init__(self, tokenizer_name, max_length):
@@ -124,12 +130,12 @@ class MultiNLI(BaseDataset):
         dataset = self.tokenize()
         dataset.save_to_disk(self.data_path)
     def get_dataset(self) -> Tuple[Dataset]:
-        if os.path.isdir(self.data_path):
-            dataset = DatasetDict.load_from_disk(self.data_path)
-        else:
+        if not os.path.isdir(self.data_path):
             self.save_disk()
-            dataset = DatasetDict.load_from_disk(self.data_path)
-        return dataset['train'], dataset['dev_matched'], dataset['dev_mismatched']
+        dataset = DatasetDict.load_from_disk(self.data_path)
+        dataset = dataset.map(lambda example: {"labels": label_dict[example["gold_label"]]}, remove_columns=["gold_label"])
+        dataset = dataset.remove_columns(['promptID', 'pairID','sentence1', 'sentence1_binary_parse', 'sentence1_parse', 'sentence2', 'sentence2_binary_parse', 'sentence2_parse', 'annotator_labels','genre'])
+        return dataset
     
 class Contract_NLI(BaseDataset):
     def __init__(self, tokenizer_name, max_length):
@@ -175,9 +181,9 @@ class Contract_NLI(BaseDataset):
         dataset = self.tokenize()
         dataset.save_to_disk(self.data_path)
     def get_dataset(self) -> Tuple[Dataset]:
-        if os.path.isdir(self.data_path):
-            dataset = DatasetDict.load_from_disk(self.data_path)
-        else:
+        if not os.path.isdir(self.data_path):
             self.save_disk()
-            dataset = DatasetDict.load_from_disk(self.data_path)
-        return dataset['train'], dataset['dev'], dataset['test']
+        dataset = DatasetDict.load_from_disk(self.data_path)
+        dataset = dataset.map(lambda example: {"labels": contract_label_dict[example["label"]]}, remove_columns=["label"])
+        dataset = dataset.remove_columns(['doc_id','premise', 'hypothesis', 'spans'])
+        return dataset
