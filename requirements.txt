@@ -4,3 +4,5 @@ datasets
 torch
 huggingface_hub
 transformers[torch]
+sentence_transformers
+evaluate
