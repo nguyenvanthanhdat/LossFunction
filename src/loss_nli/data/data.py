@@ -13,6 +13,13 @@ split_dict = ['train', 'test', 'dev']
 tokenizer_dict = {
     'xlmr': "xlm-roberta-large"
 }
+label_dict = {
+    "contradiction": 0,
+    "neutral": 1,
+    "entailment": 2,
+    "other": 3,
+    "-": -1
+}
 
 
 class ViNLI(BaseDataset):
@@ -47,12 +54,12 @@ class ViNLI(BaseDataset):
     
     
     def get_dataset(self) -> Tuple[Dataset]:
-        if os.path.isdir(self.data_path):
-            dataset = DatasetDict.load_from_disk(self.data_path)
-        else:
+        if not os.path.isdir(self.data_path):
             self.save_disk()
-            dataset = DatasetDict.load_from_disk(self.data_path)
-        return dataset['train'], dataset['dev'], dataset['test']
+        dataset = DatasetDict.load_from_disk(self.data_path)
+        dataset = dataset.map(lambda example: {"labels": label_dict[example["gold_label"]]}, remove_columns=["gold_label"])
+        dataset = dataset.remove_columns(['pairID', 'link', 'context', 'sentence1', 'sentenceID', 'topic', 'sentence2', 'annotator_labels'])
+        return dataset
     
 class SNLI(BaseDataset):
     def __init__(self, tokenizer_name, max_length):
