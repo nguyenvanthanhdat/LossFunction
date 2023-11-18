@@ -38,6 +38,7 @@ training_args = TrainingArguments(
     logging_steps=100,
     num_train_epochs=15,
     report_to="tensorboard",
+    disable_tqdm=True,
 )
 training_args.device
 
