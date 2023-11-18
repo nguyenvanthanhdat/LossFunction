@@ -31,12 +31,13 @@ training_args = TrainingArguments(
     overwrite_output_dir=True,
     do_train=True,
     do_eval=True,
+    per_device_train_batch_size=8,
+    learning_rate=1e-4,
     evaluation_strategy="steps",
     logging_dir="logging",
     logging_steps=100,
     num_train_epochs=15,
     report_to="tensorboard",
-    learning_rate=1e-4
 )
 training_args.device
 
