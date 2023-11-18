@@ -1,3 +1,4 @@
+--extra-index-url https://download.pytorch.org/whl/cu118
 gdown 
 sentencepiece
 datasets
@@ -6,3 +7,4 @@ huggingface_hub
 transformers[torch]
 sentence_transformers
 evaluate
+tensorboardX

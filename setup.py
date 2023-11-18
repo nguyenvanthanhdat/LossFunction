@@ -8,7 +8,7 @@ with open('README.md', encoding='utf-8') as f:
 #     license = f.read()
 
 with open('requirements.txt', encoding='utf-8') as f:
-    reqs = f.read()
+    reqs = f.readlines()[1:]
 
 setup(
     name = 'loss_nli',
@@ -18,5 +18,6 @@ setup(
     python_requires='>=3.9',
     package_dir={"": "src"},
     packages=find_packages(exclude=('data')),
-    install_requires=reqs.strip().split('\n'),
+    # install_requires=reqs.strip().split('\n'),
+    install_requires=reqs,
 )

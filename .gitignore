@@ -7,6 +7,9 @@ loss_nli-0.1.0-py3.11.egg
 /data_tokenized/
 /src/loss_nli/data/__pycache__/
 
+# model folder
+/model/
+
 # notebook folder
 notebooks/
 
