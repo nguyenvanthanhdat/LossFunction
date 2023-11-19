@@ -1,4 +1,4 @@
-import json
+# import json
 import torch
 from torch.utils.data import DataLoader, IterableDataset
 from transformers import AutoTokenizer
@@ -12,8 +12,11 @@ from transformers import (
 )
 import numpy as np
 import evaluate
+import os
 
-dataset = data.ViNLI(tokenizer_name='xlmr', max_length=512).get_dataset()
+os.environ["WANDB_PROJECT"] = "Loss-Function"
+
+dataset = data.ViNLI(tokenizer_name='xlmr', max_length=30).get_dataset()
 check_point = "xlm-roberta-large"
 model = AutoModelForSequenceClassification.from_pretrained(check_point, num_labels=3)
 
@@ -27,24 +30,25 @@ def compute_metrics(eval_pred):
 device = torch.device("cuda:0")
 
 training_args = TrainingArguments(
-    output_dir="model/xlmr/vinli/100",
+    output_dir="model/xlmr/vinli/10",
     overwrite_output_dir=True,
     do_train=True,
     do_eval=True,
-    per_device_train_batch_size=4,
+    per_device_train_batch_size=8,
     learning_rate=1e-4,
     evaluation_strategy="steps",
     logging_dir="logging",
     logging_steps=100,
-    num_train_epochs=15,
-    report_to="tensorboard",
+    num_train_epochs=3,
+    report_to="wandb",
+    run_name="xlmr_vinli_50_v1",
     disable_tqdm=True,
 )
 training_args.device
 
 trainer = Trainer(
     model,
-    training_args,
+    args=training_args,
     train_dataset=dataset['train'],
     eval_dataset=dataset["dev"],
     
