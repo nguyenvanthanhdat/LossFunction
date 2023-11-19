@@ -12,7 +12,7 @@ gdown 1EMenaT4KezsGBkbmmKwyaoBBfY4BftcB
 echo "Download zip file done!"
 
 # unzip
-unzip -o data_nli.zip
+python -m zipfile -e data_nli.zip .
 echo "Unzip file done!"
 
 # change name folder
