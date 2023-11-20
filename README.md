@@ -1,7 +1,7 @@
 First install python package
 
 ```python
-pip insatll -r requirements.txt
+pip install -r requirements.txt
 ```
 
 Then install setup package the code
