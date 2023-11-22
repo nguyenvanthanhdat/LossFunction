@@ -14,6 +14,7 @@ import numpy as np
 import evaluate
 import os
 
+os.system("wandb login 211aeb23439c9b5a37b08e1feced8296a50199bb")
 os.environ["WANDB_PROJECT"] = "Loss-Function"
 
 dataset = data.ViNLI(tokenizer_name='xlmr', max_length=30).get_dataset()
@@ -43,6 +44,9 @@ training_args = TrainingArguments(
     report_to="wandb",
     run_name="xlmr_vinli_50_v1",
     disable_tqdm=True,
+    metric_for_best_model = "accuracy",
+    greater_is_better=True,
+    optim= "adamw_torch",
 )
 training_args.device
 
