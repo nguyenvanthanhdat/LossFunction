@@ -23,7 +23,10 @@ os.environ["WANDB_PROJECT"] = "Loss-Function"
 dataset = data.ViNLI(tokenizer_name='xlmr', max_length=30).get_dataset()
 dataset = dataset.class_encode_column("labels")
 check_point = "xlm-roberta-large"
-model = AutoModelForSequenceClassification.from_pretrained(check_point, num_labels=3)
+model = AutoModelForSequenceClassification.from_pretrained(
+    check_point, 
+    num_labels=3
+    device_map="auto",)
 
 metric = evaluate.load("accuracy")
 # metric = load_metric("accuracy")
@@ -33,7 +36,7 @@ def compute_metrics(eval_pred):
     predictions = np.argmax(logits, axis=-1)
     return metric.compute(predictions=predictions, references=labels)
 
-device = torch.device("cuda:0,1")
+# device = torch.device("cuda:0,1")
 tokenizer = AutoTokenizer.from_pretrained("xlm-roberta-large")
 data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
@@ -56,8 +59,9 @@ training_args = TrainingArguments(
     greater_is_better=True,
     optim= "adamw_torch",
     label_names=['0','1','2'],
+    
 )
-training_args.device
+training_args
 
 trainer = Trainer(
     model,
