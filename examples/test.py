@@ -16,7 +16,7 @@ import evaluate
 from datasets import load_metric
 import os
 
-os.system("wandb login 211aeb23439c9b5a37b08e1feced8296a50199bb")
+os.system("wandb login 138c38699b36fb0223ca0f94cde30c6d531895ca")
 os.environ["WANDB_PROJECT"] = "Loss-Function"
 
 dataset = data.ViNLI(tokenizer_name='xlmr', max_length=30).get_dataset()
