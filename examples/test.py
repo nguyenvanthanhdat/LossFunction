@@ -25,7 +25,7 @@ dataset = dataset.class_encode_column("labels")
 check_point = "xlm-roberta-large"
 model = AutoModelForSequenceClassification.from_pretrained(
     check_point, 
-    num_labels=3
+    num_labels=3,
     device_map="auto",)
 
 metric = evaluate.load("accuracy")
