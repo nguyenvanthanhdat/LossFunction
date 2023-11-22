@@ -36,18 +36,18 @@ training_args = TrainingArguments(
     do_train=True,
     do_eval=True,
     per_device_train_batch_size=8,
-    learning_rate=1e-4,
+    learning_rate=2e-5,
     evaluation_strategy="steps",
     logging_dir="logging",
     logging_steps=100,
     num_train_epochs=3,
+    weight_decay=0.01,
     report_to="wandb",
     run_name="xlmr_vinli_50_v1",
     disable_tqdm=True,
     metric_for_best_model = "accuracy",
     greater_is_better=True,
     optim= "adamw_torch",
-    label_names=["start_positions", "end_positions"],
 )
 training_args.device
 
