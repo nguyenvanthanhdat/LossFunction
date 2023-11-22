@@ -12,6 +12,7 @@ from transformers import (
 )
 import numpy as np
 import evaluate
+from datasets import load_metric
 import os
 
 os.system("wandb login 211aeb23439c9b5a37b08e1feced8296a50199bb")
@@ -21,7 +22,8 @@ dataset = data.ViNLI(tokenizer_name='xlmr', max_length=30).get_dataset()
 check_point = "xlm-roberta-large"
 model = AutoModelForSequenceClassification.from_pretrained(check_point, num_labels=3)
 
-metric = evaluate.load("accuracy")
+# metric = evaluate.load("accuracy")
+metric = load_metric("accuracy")
 
 def compute_metrics(eval_pred):
     logits, labels = eval_pred
