@@ -8,7 +8,8 @@ from sentence_transformers.readers import InputExample
 from transformers import (
     AutoModelForSequenceClassification,
     Trainer,
-    TrainingArguments
+    TrainingArguments,
+    DataCollatorWithPadding
 )
 from datasets import load_metric
 import numpy as np
@@ -23,15 +24,17 @@ dataset = data.ViNLI(tokenizer_name='xlmr', max_length=30).get_dataset()
 check_point = "xlm-roberta-large"
 model = AutoModelForSequenceClassification.from_pretrained(check_point, num_labels=3)
 
-# metric = evaluate.load("accuracy")
-metric = load_metric("accuracy")
+metric = evaluate.load("accuracy")
+# metric = load_metric("accuracy")
 
 def compute_metrics(eval_pred):
     logits, labels = eval_pred
     predictions = np.argmax(logits, axis=-1)
     return metric.compute(predictions=predictions, references=labels)
 
-device = torch.device("cuda:0")
+device = torch.device("auto")
+tokenizer = AutoTokenizer.from_pretrained("xlm-roberta-large")
+data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
 training_args = TrainingArguments(
     output_dir="model/xlmr/vinli/10",
@@ -60,8 +63,8 @@ trainer = Trainer(
     train_dataset=dataset['train'],
     eval_dataset=dataset["dev"],
     compute_metrics=compute_metrics,
-    # data_collator=data_collator,
-    # tokenizer=tokenizer,
+    data_collator=data_collator,
+    tokenizer=tokenizer,
 )
 
 trainer.train()
