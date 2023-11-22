@@ -55,7 +55,7 @@ trainer = Trainer(
     args=training_args,
     train_dataset=dataset['train'],
     eval_dataset=dataset["dev"],
-    
+    compute_metrics=compute_metrics,
     # data_collator=data_collator,
     # tokenizer=tokenizer,
 )
