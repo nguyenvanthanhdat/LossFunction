@@ -47,6 +47,7 @@ training_args = TrainingArguments(
     metric_for_best_model = "accuracy",
     greater_is_better=True,
     optim= "adamw_torch",
+    label_names=["start_positions", "end_positions"],
 )
 training_args.device
 
