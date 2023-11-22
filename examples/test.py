@@ -33,7 +33,7 @@ def compute_metrics(eval_pred):
     predictions = np.argmax(logits, axis=-1)
     return metric.compute(predictions=predictions, references=labels)
 
-device = torch.device("auto")
+device = torch.device("cuda:0,1")
 tokenizer = AutoTokenizer.from_pretrained("xlm-roberta-large")
 data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
