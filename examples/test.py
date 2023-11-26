@@ -20,7 +20,7 @@ import os
 os.system("wandb login 138c38699b36fb0223ca0f94cde30c6d531895ca")
 os.environ["WANDB_PROJECT"] = "Loss-Function"
 
-dataset = data.ViNLI(tokenizer_name='xlmr', max_length=30).get_dataset()
+dataset = data.ViNLI(tokenizer_name='xlmr').get_dataset()
 dataset = dataset.class_encode_column("labels")
 check_point = "xlm-roberta-large"
 model = AutoModelForSequenceClassification.from_pretrained(
@@ -49,7 +49,8 @@ training_args = TrainingArguments(
     learning_rate=2e-5,
     evaluation_strategy="steps",
     logging_dir="logging",
-    logging_steps=100,
+    logging_steps=10,
+    eval_steps=100,
     num_train_epochs=3,
     weight_decay=0.01,
     report_to="wandb",
@@ -58,7 +59,7 @@ training_args = TrainingArguments(
     metric_for_best_model = "accuracy",
     greater_is_better=True,
     optim= "adamw_torch",
-    label_names=['0','1','2'],
+    # label_names=['0','1','2'],
     
 )
 training_args
