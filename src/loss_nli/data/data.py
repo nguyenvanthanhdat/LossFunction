@@ -33,8 +33,9 @@ def Find_max_length(dataset, split_dict, tokenize_name):
         examples["sentence2"], 
         examples["sentence1"],
         ), batched=True)
-    Mergedata = concatenate_datasets([dataset[split_dict[0]],dataset[split_dict[1]],dataset[split_dict[2]]])
-    sorted_sequences = sorted(enumerate(Mergedata['attention_mask']), key=lambda x: len(x[1]), reverse=True)
+    # Mergedata = concatenate_datasets([dataset[split_dict[0]],dataset[split_dict[1]],dataset[split_dict[2]]])
+    # sorted_sequences = sorted(enumerate(Mergedata['attention_mask']), key=lambda x: len(x[1]), reverse=True)
+    sorted_sequences = sorted(enumerate(dataset['train']['attention_mask']), key=lambda x: len(x[1]), reverse=True)
     sorted_indices, sorted_sequences = zip(*sorted_sequences)
     return len(sorted_sequences[0])
 
