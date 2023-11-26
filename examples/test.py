@@ -26,6 +26,7 @@ check_point = "xlm-roberta-large"
 model = AutoModelForSequenceClassification.from_pretrained(
     check_point, 
     num_labels=3,
+    torch_dtype=torch.float16,
     device_map="auto",)
 
 metric = evaluate.load("accuracy")
@@ -45,7 +46,7 @@ training_args = TrainingArguments(
     overwrite_output_dir=True,
     do_train=True,
     do_eval=True,
-    per_device_train_batch_size=16,
+    per_device_train_batch_size=8,
     learning_rate=2e-5,
     evaluation_strategy="steps",
     logging_dir="logging",
