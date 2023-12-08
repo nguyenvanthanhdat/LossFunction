@@ -3,6 +3,7 @@ import torch
 from torch.utils.data import DataLoader, IterableDataset
 from transformers import AutoTokenizer
 from loss_nli.data import data
+from loss_nli.trainer.trainer import CrossEntropyLossTrainer
 from sentence_transformers import SentenceTransformer, SentencesDataset, losses
 from sentence_transformers.readers import InputExample
 from transformers import (
@@ -65,7 +66,7 @@ training_args = TrainingArguments(
 )
 training_args
 
-trainer = Trainer(
+trainer = CrossEntropyLossTrainer(
     model,
     args=training_args,
     train_dataset=dataset['train'],
