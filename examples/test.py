@@ -64,7 +64,7 @@ training_args = TrainingArguments(
 )
 training_args
 
-trainer = CrossEntropyLossTrainer(
+trainer = Trainer(
     model,
     args=training_args,
     train_dataset=dataset['train'],
