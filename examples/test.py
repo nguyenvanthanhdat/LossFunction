@@ -12,10 +12,8 @@ from transformers import (
     TrainingArguments,
     DataCollatorWithPadding
 )
-from datasets import load_metric
 import numpy as np
 import evaluate
-from datasets import load_metric
 import os
 
 os.system("wandb login 138c38699b36fb0223ca0f94cde30c6d531895ca")
