@@ -47,12 +47,12 @@ def compute_metrics(eval_pred):
 
 
 # TrainingArguments
-per_device_train_batch_size=16,
-learning_rate=2e-4,
-logging_steps=10,
-eval_steps=100,
-num_train_epochs=1,
-weight_decay=0.01,
+per_device_train_batch_size=int(16),
+learning_rate=float(2e-4),
+logging_steps=int(10),
+eval_steps=int(100),
+num_train_epochs=int(1),
+weight_decay=float(0.01),
 metric_for_best_model = "accuracy"
 metric = evaluate.load("accuracy")
 
@@ -75,18 +75,18 @@ for dataset_name, model_name, trainer_name in itertools.product(dataset_list, li
 
 
     training_args = TrainingArguments(
-        output_dir=os.path.join("model",model_name, dataset_name, str(num_train_epochs[0])),
+        output_dir=os.path.join("model",model_name, dataset_name, str(num_train_epochs)),
         overwrite_output_dir=True,
         do_train=True,
         do_eval=True,
-        per_device_train_batch_size=per_device_train_batch_size,
-        learning_rate=learning_rate,
+        per_device_train_batch_size=per_device_train_batch_size[0],
+        learning_rate=learning_rate[0],
         evaluation_strategy="steps",
         logging_dir="logging",
         logging_steps=logging_steps[0],
-        eval_steps=eval_steps,
-        num_train_epochs=num_train_epochs,
-        weight_decay=weight_decay,
+        eval_steps=eval_steps[0],
+        num_train_epochs=num_train_epochs[0],
+        weight_decay=weight_decay[0],
         report_to="wandb",
         run_name="_".join(str(x) for x in [dataset_name, model_name, num_train_epochs[0], '%.0e' % learning_rate[0]]),
         # disable_tqdm=True,
@@ -102,7 +102,7 @@ for dataset_name, model_name, trainer_name in itertools.product(dataset_list, li
         args=training_args,
         train_dataset=dataset['train'],#
         eval_dataset=dataset["dev"],#
-        compute_metrics=compute_metrics(metric=metric),
+        compute_metrics=compute_metrics,
         data_collator=data_collator,
         tokenizer=tokenizer,#
         
