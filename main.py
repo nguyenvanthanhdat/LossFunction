@@ -17,6 +17,9 @@ import evaluate
 from datasets import load_metric
 import os
 
+os.system("wandb login 138c38699b36fb0223ca0f94cde30c6d531895ca")
+os.environ["WANDB_PROJECT"] = "Loss-Function"
+
 # def preprocess_fn(sent1, sent2, label):
 #     # new_sent = "['CLS'] " + sent2 + " ['SEP'] " + sent1
 #     new_sent = sent2 + " </s> " + sent1
