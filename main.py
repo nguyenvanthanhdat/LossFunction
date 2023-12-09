@@ -83,7 +83,7 @@ for dataset_name, model_name, trainer_name in itertools.product(dataset_list, li
         learning_rate=learning_rate,
         evaluation_strategy="steps",
         logging_dir="logging",
-        logging_steps=logging_steps,
+        logging_steps=logging_steps[0],
         eval_steps=eval_steps,
         num_train_epochs=num_train_epochs,
         weight_decay=weight_decay,
