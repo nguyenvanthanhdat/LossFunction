@@ -159,7 +159,12 @@ class DataTrainingArguments:
         metadata={"help": "An optional input evaluation data file to evaluate the perplexity on (a text file)."},
     )
     streaming: bool = field(default=False, metadata={"help": "Enable streaming mode"})
-
+    loss_func_name: str = field(
+        default=None,
+        metadata={"help": "Choose loss function in ['cross', 'triplet', 'contras', 'cosine']"}
+    )
+    num_labels: int = field(default=3, metadata={"help": "choose number of label in dataset"})
+    load_all_labels: bool=field(default=False, metadata={"help": "if true load 4 label, vice versa"})
     def __post_init__(self):
         if self.streaming:
             require_version("datasets>=2.0.0", "The streaming feature requires `datasets>=2.0.0`")
