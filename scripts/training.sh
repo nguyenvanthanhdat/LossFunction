@@ -3,7 +3,7 @@ OUTPUT_DIR='output/finetune'
 BZ=12
 
 
-python -m zalo_ai_math.training \
+python -m loss_nli.training \
     --model_name_or_path $MODEL_NAME_OR_PATH \
     --output_dir $OUTPUT_DIR \
     --do_train \
