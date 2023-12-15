@@ -72,6 +72,8 @@ def main():
     if model_args.config_name:
         config = AutoConfig.from_pretrained(model_args.config_name, **config_kwargs)
     elif model_args.model_name_or_path:
+        config = AutoConfig.from_pretrained(model_args.model_name_or_path, **config_kwargs)
+    else:
         config = CONFIG_MAPPING[model_args.model_type]()
         logger.warning("You are instantiating a new config instance from scratch.")
         if model_args.config_overrides is not None:
