@@ -117,7 +117,7 @@ def main():
         base_model = AutoModelForSequenceClassification.from_pretrained(
             model_args.model_name_or_path,
             # quantization_config=quant_config if model_args.quantize else None,
-            device_map={"": 0},
+            # device_map={"": 0},
             num_labels=data_args.num_labels
         )
         base_model.config.use_cache = False
@@ -129,19 +129,19 @@ def main():
         "cross": CrossEntropyLossTrainer,
         "triplet": TripletLossTrainer,
         "contras": CosineSimilarityLossTrainer,
-        "consine": CosineSimilarityLossTrainer
+        "cosine": CosineSimilarityLossTrainer
     }
     
     loss_trainer = loss_dict[data_args.loss_func_name]
     
-    dataset = data.ViNLI(tokenizer_name='xlmr', max_length=10, load_all_labels=data_args.load_all_labels).get_dataset()
+    dataset = data.ViNLI(tokenizer_name='xlmr', load_all_labels=data_args.load_all_labels).get_dataset()
 
     trainer = loss_trainer(
         model=base_model,
         args=training_args,
         # data_collator=data_collator,
         train_dataset=dataset["train"],
-        eval_dataset=dataset["validation"]
+        eval_dataset=dataset["dev"]
     )
     
     base_model.config.use_cache = False  # silence the warnings. Please re-enable for inference!

@@ -19,6 +19,6 @@ python -m loss_nli.training \
     --logging_steps 100 \
     --evaluation_strategy 'steps' \
     --overwrite_output_dir \
+    --loss_func_name 'cosine'\
     --load_best_model_at_end
 
-$BASH
