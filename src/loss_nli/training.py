@@ -10,6 +10,7 @@ from transformers import (
     AutoConfig,
     CONFIG_MAPPING,
     BitsAndBytesConfig,
+    Seq2SeqTrainingArguments,
     AutoModelForSeq2SeqLM,
     AutoModelForMaskedLM,
     AutoModelForSequenceClassification
@@ -30,14 +31,14 @@ def main():
     os.system("wandb login 138c38699b36fb0223ca0f94cde30c6d531895ca")
     os.environ["WANDB_PROJECT"] = "Loss-Function"
 
-    parser = HfArgumentParser((ModelArguments, DataTrainingArguments))
+    parser = HfArgumentParser((ModelArguments, DataTrainingArguments, Seq2SeqTrainingArguments))
     if len(sys.argv) == 2 and sys.argv[1].endswith(".json"):
         # if we pass only one arguments to the scripts and it's the path to a json file,
         # let's parse it to get our arguments.
 
-        model_args, data_args, training_args, lora_args = parser.parse_json_file(json_file=os.path.abspath(sys.argv[1]))
+        model_args, data_args, training_args= parser.parse_json_file(json_file=os.path.abspath(sys.argv[1]))
     else:
-        model_args, data_args, training_args, lora_args = parser.parse_args_into_dataclasses()
+        model_args, data_args, training_args= parser.parse_args_into_dataclasses()
 
     if training_args.should_log:
         transformers.utils.logging.set_verbosity_info()
