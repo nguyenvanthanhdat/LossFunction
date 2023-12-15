@@ -95,13 +95,13 @@ def main():
     tokenizer.padding_side = 'right'
 
     # Quantize config
-    if model_args.quantize:
-        quant_config = BitsAndBytesConfig(
-            load_in_4bit=True,
-            bnb_4bit_quant_type='nf4',
-            bnb_4bit_compute_dtype=torch.float16,
-            bnb_4bit_use_double_quant=False
-        )
+    # if model_args.quantize:
+    #     quant_config = BitsAndBytesConfig(
+    #         load_in_4bit=True,
+    #         bnb_4bit_quant_type='nf4',
+    #         bnb_4bit_compute_dtype=torch.float16,
+    #         bnb_4bit_use_double_quant=False
+    #     )
     
     # model_type_dict = {
     #     "bert": AutoModelForMaskedLM,

@@ -1,4 +1,4 @@
-MODEL_NAME_OR_PATH=output/pre-finetune
+MODEL_NAME_OR_PATH=vinai/phobert-large
 OUTPUT_DIR='output/finetune'
 BZ=12
 
@@ -18,6 +18,7 @@ python -m loss_nli.training \
     --eval_steps 1000 \
     --logging_steps 100 \
     --evaluation_strategy 'steps' \
-    --step_by_step \
     --overwrite_output_dir \
     --load_best_model_at_end
+
+$BASH
