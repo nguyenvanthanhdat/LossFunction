@@ -116,7 +116,7 @@ def main():
     if model_args.model_name_or_path:
         base_model = AutoModelForSequenceClassification.from_pretrained(
             model_args.model_name_or_path,
-            quantization_config=quant_config if model_args.quantize else None,
+            # quantization_config=quant_config if model_args.quantize else None,
             device_map={"": 0},
             num_labels=data_args.num_labels
         )
