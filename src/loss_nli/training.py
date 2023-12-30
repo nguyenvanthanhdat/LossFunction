@@ -2,7 +2,7 @@ from .arguments import ModelArguments, DataTrainingArguments
 import logging, sys, os
 import torch
 import transformers
-from loss_nli.data import data
+from .data import data
 from transformers import (
     HfArgumentParser,
     set_seed,
@@ -129,7 +129,7 @@ def main():
         "cross": CrossEntropyLossTrainer,
         "triplet": TripletLossTrainer,
         "contras": CosineSimilarityLossTrainer,
-        "consine": CosineSimilarityLossTrainer
+        "cosine": CosineSimilarityLossTrainer
     }
     
     loss_trainer = loss_dict[data_args.loss_func_name]
