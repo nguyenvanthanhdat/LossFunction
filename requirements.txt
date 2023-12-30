@@ -10,4 +10,3 @@ evaluate
 tensorboardX
 ipywidgets
 wandb
--e .
