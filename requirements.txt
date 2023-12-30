@@ -1,5 +1,5 @@
---extra-index-url https://download.pytorch.org/whl/cu118
-gdown 
+gdown
+setuptools 
 sentencepiece
 datasets
 torch
@@ -10,3 +10,4 @@ evaluate
 tensorboardX
 ipywidgets
 wandb
+-e .
