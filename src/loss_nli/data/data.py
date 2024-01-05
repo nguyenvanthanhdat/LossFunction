@@ -12,7 +12,9 @@ dataset_path_dict = {
 }   
 split_dict = ['train', 'test', 'dev']
 tokenizer_dict = {
-    'xlmr': "xlm-roberta-large"
+    'xlmr': "xlm-roberta-large",
+    't5': "t5-large",
+    'phobert': "vinai/phobert-large",
 }
 label_dict = {
     "contradiction": 0,
@@ -39,13 +41,20 @@ def Find_max_length(dataset, split_dict, tokenize_name):
     sorted_indices, sorted_sequences = zip(*sorted_sequences)
     return len(sorted_sequences[0])
 
+def TakeSampleDataset(dataset, split_dict, num_sample):
+    dataset[split_dict[0]] = dataset[split_dict[0]].select(range(num_sample))
+    dataset[split_dict[1]] = dataset[split_dict[0]].select(range(num_sample))
+    dataset[split_dict[2]] = dataset[split_dict[0]].select(range(num_sample))
+    return dataset
 
 class ViNLI(BaseDataset):
-    def __init__(self, tokenizer_name, load_all_labels=False):
+    def __init__(self, tokenizer_name, load_all_labels=False, num_sample = 0):
         self.tokenize_name = tokenizer_name
         self.load_all_labels = load_all_labels
         self.max_length = None
         self.data_path = None
+        self.num_sample = num_sample # this will determine to load all data or just k sample data
+
     def load_from_disk(self):
         data_files = {}
         for split in split_dict:
@@ -81,13 +90,16 @@ class ViNLI(BaseDataset):
         self.save_disk()
         dataset = DatasetDict.load_from_disk(self.data_path)
         dataset = dataset.remove_columns(['pairID', 'link', 'context', 'sentence1', 'sentenceID', 'topic', 'sentence2', 'annotator_labels'])
+        if self.num_sample!=0 :
+            dataset = TakeSampleDataset(dataset, split_dict, self.num_sample)
         return dataset
     
 class SNLI(BaseDataset):
-    def __init__(self, tokenizer_name):
+    def __init__(self, tokenizer_name, load_all_labels = True, num_sample = 0):
         self.tokenize_name = tokenizer_name
         self.max_length = None
         self.data_path = None
+        self.num_sample = num_sample # this will determine to load all data or just k sample data
 
     def load_from_disk(self):
         data_files = {}
@@ -122,18 +134,21 @@ class SNLI(BaseDataset):
         self.save_disk()
         dataset = DatasetDict.load_from_disk(self.data_path)
         dataset = dataset.remove_columns(['captionID', 'pairID','sentence1', 'sentence1_binary_parse', 'sentence1_parse', 'sentence2', 'sentence2_binary_parse', 'sentence2_parse', 'annotator_labels'])
+        if self.num_sample!=0 :
+            dataset = TakeSampleDataset(dataset, split_dict, self.num_sample)
         return dataset
     
 class MultiNLI(BaseDataset):
-    def __init__(self, tokenizer_name):
+    def __init__(self, tokenizer_name, load_all_labels = True, num_sample=0):
         self.tokenize_name = tokenizer_name
         self.max_length = None
         self.data_path = None
+        self.split_dict =['dev_matched','dev_mismatched','train']
+        self.num_sample = num_sample # this will determine to load all data or just k sample data
 
     def load_from_disk(self):
         data_files = {}
-        split_dict =['dev_matched','dev_mismatched','train']
-        for split in split_dict:
+        for split in self.split_dict:
             # print(split)
             path = dataset_path_dict['MultiNLI'].format(split=split)
             data_files[split] = path
@@ -164,13 +179,16 @@ class MultiNLI(BaseDataset):
         self.save_disk()
         dataset = DatasetDict.load_from_disk(self.data_path)
         dataset = dataset.remove_columns(['promptID', 'pairID','sentence1', 'sentence1_binary_parse', 'sentence1_parse', 'sentence2', 'sentence2_binary_parse', 'sentence2_parse', 'annotator_labels','genre'])
+        if self.num_sample!=0 :
+            dataset = TakeSampleDataset(dataset, self.split_dict, self.num_sample)
         return dataset
     
 class Contract_NLI(BaseDataset):
-    def __init__(self, tokenizer_name):
+    def __init__(self, tokenizer_name, load_all_labels = True, num_sample = 0):
         self.tokenize_name = tokenizer_name
         self.max_length = None
         self.data_path = None
+        self.num_sample = num_sample # this will determine to load all data or just k sample data
 
     def load_from_disk(self):
         def parse_file(file_name):
@@ -221,4 +239,6 @@ class Contract_NLI(BaseDataset):
         self.save_disk()
         dataset = DatasetDict.load_from_disk(self.data_path)
         dataset = dataset.remove_columns(['doc_id','sentence1', 'sentence2', 'spans'])
+        if self.num_sample!=0 :
+            dataset = TakeSampleDataset(dataset, split_dict, self.num_sample)
         return dataset

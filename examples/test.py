@@ -3,6 +3,7 @@ import torch
 from torch.utils.data import DataLoader, IterableDataset
 from transformers import AutoTokenizer
 from loss_nli.data import data
+from loss_nli.trainer.trainer import CrossEntropyLossTrainer
 from sentence_transformers import SentenceTransformer, SentencesDataset, losses
 from sentence_transformers.readers import InputExample
 from transformers import (
@@ -20,7 +21,7 @@ def main():
     os.system("wandb login 138c38699b36fb0223ca0f94cde30c6d531895ca")
     os.environ["WANDB_PROJECT"] = "Loss-Function"
 
-    dataset = data.ViNLI(tokenizer_name='xlmr').get_dataset()
+    dataset = data.ViNLI(tokenizer_name='xlmr', max_length=10).get_dataset()
     dataset = dataset.class_encode_column("labels")
     check_point = "xlm-roberta-large"
     model = AutoModelForSequenceClassification.from_pretrained(
@@ -65,7 +66,7 @@ def main():
     )
     training_args.device
 
-    trainer = Trainer(
+    trainer = CrossEntropyLossTrainer(
         model,
         args=training_args,
         train_dataset=dataset['train'],
