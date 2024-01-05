@@ -81,7 +81,14 @@ class ModelArguments:
     #         )
     #     }
     # )
-    
+    use_seq2seq: bool = field(
+        default=False,
+        metadata={
+            "help": (
+                "Option to use predict word in T5 model"
+            )
+        }
+    )
     
 
     def __post_init__(self):

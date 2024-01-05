@@ -114,12 +114,20 @@ def main():
     #         auto_model = model_type_dict[key]
 
     if model_args.model_name_or_path:
-        base_model = AutoModelForSequenceClassification.from_pretrained(
-            model_args.model_name_or_path,
-            # quantization_config=quant_config if model_args.quantize else None,
-            # device_map={"": 0},
-            num_labels=data_args.num_labels
-        )
+        if model_args.use_seq2seq:
+            base_model = AutoModelForSeq2SeqLM.from_pretrained(
+                model_args.model_name_or_path,
+                # quantization_config=quant_config if model_args.quantize else None,
+                # device_map={"": 0},
+                num_labels=data_args.num_labels
+            )
+        else:
+            base_model = AutoModelForSequenceClassification.from_pretrained(
+                model_args.model_name_or_path,
+                # quantization_config=quant_config if model_args.quantize else None,
+                # device_map={"": 0},
+                num_labels=data_args.num_labels
+            )
         base_model.config.use_cache = False
         base_model.config.pretraining_tp = 1
     else:
