@@ -6,6 +6,7 @@ from transformers import (
 )
 from sentence_transformers.losses import TripletLoss, ContrastiveLoss, CosineSimilarityLoss
 from torch.nn import CrossEntropyLoss 
+import torch
 
 class CrossEntropyLossTrainer(Trainer):
     def compute_loss(self, model, inputs, return_outputs=False):

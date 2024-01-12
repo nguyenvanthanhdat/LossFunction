@@ -1,4 +1,4 @@
-MODEL_NAME_OR_PATH=vinai/phobert-large
+MODEL_NAME_OR_PATH=xlm-roberta-large
 OUTPUT_DIR='output/finetune'
 BZ=12
 
@@ -19,6 +19,7 @@ python -m loss_nli.training \
     --logging_steps 100 \
     --evaluation_strategy 'steps' \
     --overwrite_output_dir \
-    --loss_func_name 'cosine'\
+    --loss_func_name 'triplet'\
     --load_best_model_at_end
+$SHELL
 
