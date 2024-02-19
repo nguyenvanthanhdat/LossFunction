@@ -15,6 +15,7 @@ from transformers import (
     AutoModelForMaskedLM,
     AutoModelForSequenceClassification
 )
+from datasets import load_dataset
 from transformers.trainer_utils import get_last_checkpoint
 from .trainer import CrossEntropyLossTrainer, TripletLossTrainer, ContrastiveLossTrainer, CosineSimilarityLossTrainer
 
@@ -142,8 +143,12 @@ def main():
     
     loss_trainer = loss_dict[data_args.loss_func_name]
     
-    dataset = data.ViNLI(tokenizer_name='xlmr', load_all_labels=data_args.load_all_labels).get_dataset()
-
+    # dataset = data.ViNLI(tokenizer_name='xlmr', load_all_labels=data_args.load_all_labels).get_dataset()
+    dataset = load_dataset(data_args.dataset_name)
+    
+    # TODO: tokenizer dataset 
+    
+    # TODO: model trainer
     trainer = loss_trainer(
         model=base_model,
         args=training_args,
