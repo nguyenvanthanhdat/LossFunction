@@ -146,7 +146,21 @@ def main():
     # dataset = data.ViNLI(tokenizer_name='xlmr', load_all_labels=data_args.load_all_labels).get_dataset()
     dataset = load_dataset(data_args.dataset_name)
     
-    # TODO: tokenizer dataset 
+    # TODO: calculate max length in train split
+    max_length = data.Find_max_length(dataset=dataset, split_dict=None, tokenize_name=model_args.model_name_or_path)
+
+    # TODO: tokenizer dataset
+    dataset = dataset.map(
+        lambda examples: tokenizer(
+            examples["sentence2"], 
+            examples["sentence1"],
+            max_length=max_length,
+            padding='max_length',
+            truncation=True,
+            return_tensors="pt",
+        ), 
+        batched=True
+    )
     
     # TODO: model trainer
     trainer = loss_trainer(
