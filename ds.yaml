@@ -3,7 +3,7 @@ debug: false
 deepspeed_config:
   gradient_accumulation_steps: 8
   zero3_init_flag: false
-  zero_stage: 1
+  zero_stage: 2
 distributed_type: DEEPSPEED
 downcast_bf16: 'no'
 machine_rank: 0
