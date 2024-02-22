@@ -26,6 +26,14 @@ logging.basicConfig(
     handlers=[logging.StreamHandler(sys.stdout)],
 )
 
+label_dict = {
+    "contradiction": 0,
+    "neutral": 1,
+    "entailment": 2,
+    "other": 3,
+    "-": -1
+}
+
 def main():
 
     # init wandb
@@ -148,6 +156,9 @@ def main():
     
     # TODO: calculate max length in train split
     max_length = data.Find_max_length(dataset=dataset, split_dict=None, tokenize_name=model_args.model_name_or_path)
+
+    # TODO: convert labels to classify label
+    dataset = dataset.map(lambda example: {"labels": label_dict[example["gold_label"]]}, remove_columns=["gold_label"])
 
     # TODO: tokenizer dataset
     dataset = dataset.map(
