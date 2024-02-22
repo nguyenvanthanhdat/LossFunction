@@ -128,14 +128,16 @@ def main():
                 model_args.model_name_or_path,
                 # quantization_config=quant_config if model_args.quantize else None,
                 # device_map={"": 0},
-                num_labels=data_args.num_labels
+                num_labels=data_args.num_labels,
+                label2id=label_dict,
             )
         else:
             base_model = AutoModelForSequenceClassification.from_pretrained(
                 model_args.model_name_or_path,
                 # quantization_config=quant_config if model_args.quantize else None,
                 # device_map={"": 0},
-                num_labels=data_args.num_labels
+                num_labels=data_args.num_labels,
+                label2id=label_dict,
             )
         base_model.config.use_cache = False
         base_model.config.pretraining_tp = 1
