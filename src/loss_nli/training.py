@@ -26,12 +26,17 @@ logging.basicConfig(
     handlers=[logging.StreamHandler(sys.stdout)],
 )
 
-label_dict = {
+label_3_dict = {
+    "contradiction": 0,
+    "neutral": 1,
+    "entailment": 2,
+}
+
+label_4_dict = {
     "contradiction": 0,
     "neutral": 1,
     "entailment": 2,
     "other": 3,
-    "-": -1
 }
 
 def main():
@@ -121,7 +126,7 @@ def main():
     # for key in model_type_dict:
     #     if key in model_args.model_name_or_path:
     #         auto_model = model_type_dict[key]
-
+    label_dict = label_3_dict if data_args.num_labels == 3 else label_4_dict 
     if model_args.model_name_or_path:
         if model_args.use_seq2seq:
             base_model = AutoModelForSeq2SeqLM.from_pretrained(
