@@ -108,24 +108,6 @@ def main():
     tokenizer.pad_token = tokenizer.eos_token
     tokenizer.padding_side = 'right'
 
-    # Quantize config
-    # if model_args.quantize:
-    #     quant_config = BitsAndBytesConfig(
-    #         load_in_4bit=True,
-    #         bnb_4bit_quant_type='nf4',
-    #         bnb_4bit_compute_dtype=torch.float16,
-    #         bnb_4bit_use_double_quant=False
-    #     )
-    
-    # model_type_dict = {
-    #     "bert": AutoModelForMaskedLM,
-    #     "xlm-r": AutoModelForMaskedLM,
-    #     "t5": AutoModelForSeq2SeqLM
-    # }
-
-    # for key in model_type_dict:
-    #     if key in model_args.model_name_or_path:
-    #         auto_model = model_type_dict[key]
     label_dict = label_3_dict if data_args.num_labels == 3 else label_4_dict 
     if model_args.model_name_or_path:
         if model_args.use_seq2seq:
