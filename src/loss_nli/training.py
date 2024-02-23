@@ -39,6 +39,19 @@ label_4_dict = {
     "other": 3,
 }
 
+number_3_dict = {
+    0: "contradiction",
+    1: "neutral",
+    2: "entailment",
+}
+
+number_4_dict = {
+    0: "contradiction",
+    1: "neutral",
+    2: "entailment",
+    3: "other"
+}
+
 def main():
 
     # init wandb
@@ -110,7 +123,8 @@ def main():
     tokenizer.pad_token = tokenizer.eos_token
     tokenizer.padding_side = 'right'
 
-    label_dict = label_3_dict if data_args.num_labels == 3 else label_4_dict 
+    label_dict = label_3_dict if data_args.num_labels == 3 else label_4_dict
+    number_dict = number_3_dict if data_args.num_labels == 3 else number_4_dict 
     if model_args.model_name_or_path:
         if model_args.use_seq2seq:
             base_model = AutoModelForSeq2SeqLM.from_pretrained(
@@ -119,6 +133,7 @@ def main():
                 # device_map={"": 0},
                 num_labels=data_args.num_labels,
                 label2id=label_dict,
+                id2label=number_dict,
             )
         else:
             base_model = AutoModelForSequenceClassification.from_pretrained(
@@ -127,6 +142,7 @@ def main():
                 # device_map={"": 0},
                 num_labels=data_args.num_labels,
                 label2id=label_dict,
+                id2label=number_dict,
             )
         base_model.config.use_cache = False
         base_model.config.pretraining_tp = 1
