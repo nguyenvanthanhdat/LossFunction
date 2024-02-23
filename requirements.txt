@@ -10,3 +10,4 @@ evaluate
 tensorboardX
 ipywidgets
 wandb
+deepspeed
