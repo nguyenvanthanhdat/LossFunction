@@ -172,6 +172,15 @@ class DataTrainingArguments:
     )
     num_labels: int = field(default=3, metadata={"help": "choose number of label in dataset"})
     load_all_labels: bool=field(default=False, metadata={"help": "if true load 4 label, vice versa"})
+    hf_token: str = field(
+        default=None,
+        metadata={
+            "help": (
+                "huggingface token for load dataset and push model",
+                "requirements wirte permisson"
+            )
+        }
+    )
     def __post_init__(self):
         if self.streaming:
             require_version("datasets>=2.0.0", "The streaming feature requires `datasets>=2.0.0`")
