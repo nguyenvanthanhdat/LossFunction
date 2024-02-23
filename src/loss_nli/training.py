@@ -160,6 +160,10 @@ def main():
     
     # dataset = data.ViNLI(tokenizer_name='xlmr', load_all_labels=data_args.load_all_labels).get_dataset()
     dataset = load_dataset(data_args.dataset_name, token=data_args.hf_token)
+
+    # TODO: clean dataset
+    dataset = dataset.filter(lambda example: example["gold_label"] in list(label_dict.keys()))
+    
     
     # TODO: calculate max length in train split
     max_length = data.Find_max_length(dataset=dataset, split_dict=None, tokenize_name=model_args.model_name_or_path)
