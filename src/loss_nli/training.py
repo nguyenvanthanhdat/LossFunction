@@ -45,6 +45,7 @@ def main():
     os.system("wandb login 138c38699b36fb0223ca0f94cde30c6d531895ca")
     os.environ["WANDB_PROJECT"] = "Loss-Function"
 
+    # TODO: Load config 
     parser = HfArgumentParser((ModelArguments, DataTrainingArguments, Seq2SeqTrainingArguments))
     if len(sys.argv) == 2 and sys.argv[1].endswith(".json"):
         # if we pass only one arguments to the scripts and it's the path to a json file,
@@ -95,6 +96,7 @@ def main():
             config.update_from_string(model_args.config_overrides)
             logger.info(f"New config: {config}")
 
+    # TODO: Load tokenizer
     if model_args.tokenizer_name:
         tokenizer = AutoTokenizer.from_pretrained(model_args.tokenizer_name)
     elif model_args.model_name_or_path:
