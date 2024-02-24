@@ -184,6 +184,7 @@ def main():
         ), 
         batched=True
     )
+    print(dataset)
     
     # TODO: model trainer
     trainer = loss_trainer(
