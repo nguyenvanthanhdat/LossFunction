@@ -32,7 +32,7 @@ contract_label_dict = {
 def Find_max_length(dataset, split_dict, tokenize_name):
     # tokenizer = AutoTokenizer.from_pretrained(tokenizer_dict[tokenize_name])
     tokenizer = AutoTokenizer.from_pretrained(tokenize_name)
-    dataset = dataset.map(lambda examples: tokenizer(
+    dataset['train'] = dataset['train'].map(lambda examples: tokenizer(
         examples["sentence2"], 
         examples["sentence1"],
         ), batched=True)
