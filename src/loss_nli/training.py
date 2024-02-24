@@ -169,8 +169,8 @@ def main():
     max_length = data.Find_max_length(dataset=dataset, split_dict=None, tokenize_name=model_args.model_name_or_path)
 
     # TODO: convert labels to classify label
-    # dataset = dataset.map(lambda example: {"labels": label_dict[example["gold_label"]]}, remove_columns=["gold_label"])
-    dataset = dataset.rename_column("gold_label", "labels")
+    dataset = dataset.map(lambda example: {"labels": label_dict[example["gold_label"]]}, remove_columns=["gold_label"])
+    # dataset = dataset.rename_column("gold_label", "labels")
     print(dataset)
     # TODO: tokenizer dataset
     dataset = dataset.map(
