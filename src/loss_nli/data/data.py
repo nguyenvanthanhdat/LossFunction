@@ -32,13 +32,13 @@ contract_label_dict = {
 def Find_max_length(dataset, split_dict, tokenize_name):
     # tokenizer = AutoTokenizer.from_pretrained(tokenizer_dict[tokenize_name])
     tokenizer = AutoTokenizer.from_pretrained(tokenize_name)
-    dataset['train'] = dataset['train'].map(lambda examples: tokenizer(
+    dataset_temp = dataset['train'].map(lambda examples: tokenizer(
         examples["sentence2"], 
         examples["sentence1"],
         ), batched=True)
     # Mergedata = concatenate_datasets([dataset[split_dict[0]],dataset[split_dict[1]],dataset[split_dict[2]]])
     # sorted_sequences = sorted(enumerate(Mergedata['attention_mask']), key=lambda x: len(x[1]), reverse=True)
-    sorted_sequences = sorted(enumerate(dataset['train']['attention_mask']), key=lambda x: len(x[1]), reverse=True)
+    sorted_sequences = sorted(enumerate(dataset_temp['attention_mask']), key=lambda x: len(x[1]), reverse=True)
     sorted_indices, sorted_sequences = zip(*sorted_sequences)
     return len(sorted_sequences[0])
 
