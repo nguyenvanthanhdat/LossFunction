@@ -2,7 +2,7 @@ MODEL_NAME_OR_PATH='xlm-roberta-large'
 DATASET_NAME='presencesw/vinli_3_label'
 DATASET='vinli_3_label'
 OUTPUT_DIR='output/'xlm-roberta-large'/vinli_3_label'
-RUN_NAME="'xlm-roberta-large'--vinli_3_label"
+RUN_NAME="xlm-roberta-large--vinli_3_label"
 BZ=14
 GRA_ACC=8
 

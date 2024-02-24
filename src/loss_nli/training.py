@@ -171,7 +171,7 @@ def main():
     # TODO: convert labels to classify label
     # dataset = dataset.map(lambda example: {"labels": label_dict[example["gold_label"]]}, remove_columns=["gold_label"])
     dataset = dataset.rename_column("gold_label", "labels")
-
+    print(dataset)
     # TODO: tokenizer dataset
     dataset = dataset.map(
         lambda examples: tokenizer(
