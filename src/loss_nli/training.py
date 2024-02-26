@@ -17,7 +17,13 @@ from transformers import (
 )
 from datasets import load_dataset
 from transformers.trainer_utils import get_last_checkpoint
-from .trainer import CrossEntropyLossTrainer, TripletLossTrainer, ContrastiveLossTrainer, CosineSimilarityLossTrainer
+from .trainer import (
+    CrossEntropyLossTrainer, 
+    TripletLossTrainer, 
+    ContrastiveLossTrainer, 
+    CosineSimilarityLossTrainer,
+    compute_metrics
+)
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(
@@ -191,6 +197,7 @@ def main():
         model=base_model,
         args=training_args,
         # data_collator=data_collator,
+        # compute_metrics=compute_metrics,
         train_dataset=dataset["train"],
         eval_dataset=dataset["dev"]
     )

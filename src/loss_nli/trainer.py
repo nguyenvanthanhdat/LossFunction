@@ -4,9 +4,31 @@ from transformers import (
     TrainingArguments,
     DataCollatorWithPadding
 )
+import evaluate
+import numpy as np
 
 from torch.nn import CrossEntropyLoss, TripletMarginWithDistanceLoss, functional
 
+def compute_metrics(eval_pred):
+    metric1 = evaluate.load("precision")
+    metric2 = evaluate.load("recall")
+    metric3 = evaluate.load("f1")
+    metric4 = evaluate.load("accuracy")
+
+    logits, labels = eval_pred
+    predictions = np.argmax(logits, axis=-1)
+
+    precision = metric1.compute(predictions=predictions, references=labels,
+                                average="macro")["precision"]
+    recall = metric2.compute(predictions=predictions, references=labels,
+                             average="macro")["recall"]
+    f1 = metric3.compute(predictions=predictions, references=labels,
+                         average="macro")["f1"]
+    accuracy = metric4.compute(predictions=predictions, references=labels)[
+        "accuracy"]
+
+    return {"precision": precision, "recall": recall, "f1": f1,
+            "accuracy": accuracy}
 
 class CrossEntropyLossTrainer(Trainer):
     def compute_loss(self, model, inputs, return_outputs=False):
