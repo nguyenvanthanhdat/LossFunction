@@ -7,7 +7,7 @@ from transformers import (
 import evaluate
 import numpy as np
 
-from torch.nn import CrossEntropyLoss, TripletMarginWithDistanceLoss, functional
+from torch.nn import CrossEntropyLoss, CosineSimilarity, TripletMarginWithDistanceLoss, functional
 
 def compute_metrics(eval_pred):
     metric1 = evaluate.load("precision")
@@ -68,6 +68,6 @@ class CosineSimilarityLossTrainer(Trainer):
         # forward pass
         outputs = model(**inputs)
         logits = outputs.get("logits")
-        loss_fct = CosineSimilarityLoss()
+        loss_fct = CosineSimilarity()
         loss = loss_fct(logits.view(-1, self.model.config.num_labels), labels.view(-1))
         return (loss, outputs) if return_outputs else loss
