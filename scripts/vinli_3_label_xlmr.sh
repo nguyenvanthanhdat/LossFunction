@@ -31,3 +31,5 @@ GRA_ACC=8
     --save_only_model \
     --lr_scheduler_type "linear" \
     --learning_rate "5e-5"
+
+# 2 T4
