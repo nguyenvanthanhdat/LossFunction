@@ -6,6 +6,7 @@ from transformers import (
 )
 import evaluate
 import numpy as np
+import torch
 
 from torch.nn import CrossEntropyLoss, CosineSimilarity, TripletMarginWithDistanceLoss, functional
 
@@ -33,6 +34,7 @@ def compute_metrics(eval_pred):
 class CrossEntropyLossTrainer(Trainer):
     def compute_loss(self, model, inputs, return_outputs=False):
         labels = inputs.pop("labels")
+        
         # forward pass
         outputs = model(**inputs)
         logits = outputs.get("logits")
@@ -40,6 +42,22 @@ class CrossEntropyLossTrainer(Trainer):
         print(logits.view(-1, self.model.config.num_labels).shape)
         print(labels.view(-1).shape)
         loss = loss_fct(logits.view(-1, self.model.config.num_labels), labels.view(-1))
+        return (loss, outputs) if return_outputs else loss
+    
+class CosineSimilarityLossTrainer(Trainer):
+    def compute_loss(self, model, inputs, return_outputs=False):
+        labels = inputs.pop("labels")
+        # forward pass
+        outputs = model(**inputs)
+        logits = outputs.get("logits")
+        loss_fct = CosineSimilarity()
+        num_label = logits.shape[1]
+        new_labels = torch.nn.functional.one_hot(labels, num_classes=num_label)
+        # print(logits.view(-1, self.model.config.num_labels).shape)
+        # print(labels.view(-1).shape)
+        # loss = loss_fct(logits.view(-1, self.model.config.num_labels), labels.view(-1))
+        loss = loss_fct(logits, new_labels)
+        loss = torch.mean(loss)
         return (loss, outputs) if return_outputs else loss
 
 class TripletLossTrainer(Trainer):
@@ -64,14 +82,3 @@ class ContrastiveLossTrainer(Trainer):
         loss = loss_fct(logits.view(-1, self.model.config.num_labels), labels.view(-1))
         return (loss, outputs) if return_outputs else loss
 
-class CosineSimilarityLossTrainer(Trainer):
-    def compute_loss(self, model, inputs, return_outputs=False):
-        labels = inputs.pop("labels")
-        # forward pass
-        outputs = model(**inputs)
-        logits = outputs.get("logits")
-        loss_fct = CosineSimilarity()
-        print(logits.view(-1, self.model.config.num_labels).shape)
-        print(labels.view(-1).shape)
-        loss = loss_fct(logits.view(-1, self.model.config.num_labels), labels.view(-1))
-        return (loss, outputs) if return_outputs else loss
