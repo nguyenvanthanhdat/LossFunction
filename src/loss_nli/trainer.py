@@ -39,8 +39,6 @@ class CrossEntropyLossTrainer(Trainer):
         outputs = model(**inputs)
         logits = outputs.get("logits")
         loss_fct = CrossEntropyLoss()
-        print(logits.view(-1, self.model.config.num_labels).shape)
-        print(labels.view(-1).shape)
         loss = loss_fct(logits.view(-1, self.model.config.num_labels), labels.view(-1))
         return (loss, outputs) if return_outputs else loss
     
