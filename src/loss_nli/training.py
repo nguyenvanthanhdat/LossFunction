@@ -62,7 +62,7 @@ def main():
 
     # init wandb
     os.system("wandb login 138c38699b36fb0223ca0f94cde30c6d531895ca")
-    os.environ["WANDB_PROJECT"] = "Loss-Function"
+    # 
 
     # TODO: Load config 
     parser = HfArgumentParser((ModelArguments, DataTrainingArguments, Seq2SeqTrainingArguments))
