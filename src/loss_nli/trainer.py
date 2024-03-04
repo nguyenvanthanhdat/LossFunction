@@ -56,6 +56,7 @@ class CosineSimilarityLossTrainer(Trainer):
         # loss = loss_fct(logits.view(-1, self.model.config.num_labels), labels.view(-1))
         loss = loss_fct(logits, new_labels)
         # loss = torch.mean(torch.abs(loss)) * 10
+        loss = torch.mean(torch.abs(loss))
         return (loss, outputs) if return_outputs else loss
 
 class TripletLossTrainer(Trainer):
