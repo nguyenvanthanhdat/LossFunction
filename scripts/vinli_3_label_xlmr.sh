@@ -1,5 +1,5 @@
 MODEL_NAME_OR_PATH='xlm-roberta-large'
-DATASET_NAME='presencesw/vinli_4_label'
+DATASET_NAME='presencesw/vinli_3_label'
 DATASET = DATASET_NAME.split("/")[1]
 OUTPUT_DIR=f'output/{MODEL_NAME_OR_PATH}/{DATASET}'
 RUN_NAME=f"{MODEL_NAME_OR_PATH}--{DATASET}_TEST"
