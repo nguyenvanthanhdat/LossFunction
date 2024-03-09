@@ -62,7 +62,7 @@ def main():
 
     # init wandb
     os.system("wandb login 138c38699b36fb0223ca0f94cde30c6d531895ca")
-    # 
+    
 
     # TODO: Load config 
     parser = HfArgumentParser((ModelArguments, DataTrainingArguments, Seq2SeqTrainingArguments))
@@ -80,6 +80,8 @@ def main():
     log_level =  training_args.get_process_log_level()
     logger.setLevel(log_level)
 
+    #Init/enter wandb project
+    os.environ["WANDB_PROJECT"] = data_args.wandb_project
     # Detecting Last checkpoint
     last_checkpoint = None
     if os.path.isdir(training_args.output_dir) and training_args.do_train and not training_args.overwrite_output_dir:

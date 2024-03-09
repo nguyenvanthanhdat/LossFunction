@@ -1,9 +1,9 @@
-MODEL_NAME_OR_PATH='xlm-roberta-large'
-DATASET_NAME='presencesw/snli'
-DATASET = DATASET_NAME.split("/")[1]
-OUTPUT_DIR=f'output/xlm-roberta-large/snli'
-RUN_NAME=f"xlm-roberta-large--snli_TEST"
-HF_TOKEN = userdata.get('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')
+MODEL_NAME_OR_PATH= 'xlm-roberta-large'
+DATASET_NAME= 'presencesw/snli'
+DATASET= DATASET_NAME.split("/")[1]
+OUTPUT_DIR= f'output/xlm-roberta-large/snli'
+RUN_NAME= f"xlm-roberta-large--snli_TEST"
+HF_TOKEN= userdata.get('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')
 BZ=14
 GRA_ACC=8
 
