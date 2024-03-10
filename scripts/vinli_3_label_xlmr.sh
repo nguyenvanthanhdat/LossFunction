@@ -1,9 +1,9 @@
 WANDB_PROJECT='Loss-Function-cross'
 MODEL_NAME_OR_PATH='xlm-roberta-large'
-DATASET_NAME='presencesw/vinli_3_label'
-DATASET='vinli_3_label'
-OUTPUT_DIR=f'output/xlm-roberta-large/vinli_3_label'
-RUN_NAME=f"xlm-roberta-large--vinli_3_label_TEST"
+DATASET_NAME='presencesw/snli'
+DATASET='snli'
+OUTPUT_DIR=f'output/xlm-roberta-large/snli'
+RUN_NAME=f"xlm-roberta-large--snli_TEST"
 HF_TOKEN='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'
 BZ=10
 GRA_ACC=8
