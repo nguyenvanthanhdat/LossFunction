@@ -8,7 +8,7 @@ HF_TOKEN='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'
 BZ=10
 GRA_ACC=8
 
-accelerate launch --num_processes 2 --gpu_ids 0, 1 --config_file ds.yaml -m loss_nli.training \
+accelerate launch --num_processes 2 --gpu_ids 0,1 --config_file ds.yaml -m loss_nli.training \
     --hf_token $HF_TOKEN \
     --wandb_project $WANDB_PROJECT \
     --num_labels 3 \
