@@ -14,8 +14,8 @@ python -m loss_nli.training \
     --per_device_train_batch_size $BZ \
     --num_train_epochs 4 \
     --max_len 256 \
-    --save_steps 1000 \
-    --eval_steps 1000 \
+    --save_steps 100 \
+    --eval_steps 100 \
     --logging_steps 100 \
     --evaluation_strategy 'steps' \
     --overwrite_output_dir \

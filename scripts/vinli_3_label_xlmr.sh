@@ -24,7 +24,7 @@ accelerate launch --num_processes 2 --gpu_ids 0, 1 --config_file ds.yaml -m loss
     --num_train_epochs 15 \
     --save_steps 100 \
     --eval_steps 100 \
-    --logging_steps 20 \
+    --logging_steps 100 \
     --evaluation_strategy 'steps' \
     --overwrite_output_dir \
     --loss_func_name 'cross' \

@@ -167,7 +167,7 @@ def main():
     loss_trainer = loss_dict[data_args.loss_func_name]
     
     # dataset = data.ViNLI(tokenizer_name='xlmr', load_all_labels=data_args.load_all_labels).get_dataset()
-    dataset = load_dataset(data_args.dataset_name, token=data_args.hf_token)
+    dataset = load_dataset(data_args.dataset_name, use_auth_token=data_args.hf_token)
 
     # TODO: clean dataset
     dataset = dataset.filter(lambda example: example["gold_label"] in list(label_dict.keys()))
