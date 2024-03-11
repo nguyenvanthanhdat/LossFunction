@@ -6,7 +6,7 @@ OUTPUT_DIR=f'output/xlm-roberta-large/snli'
 RUN_NAME=f"xlm-roberta-large--snli_TEST"
 HF_TOKEN='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'
 BZ=20
-GRA_ACC=8
+GRA_ACC=5
 
 accelerate launch --num_processes 2 --gpu_ids 0,1 --config_file ds.yaml -m loss_nli.training \
     --hf_token $HF_TOKEN \
