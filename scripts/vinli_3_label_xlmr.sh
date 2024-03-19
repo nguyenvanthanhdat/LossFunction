@@ -3,7 +3,7 @@ MODEL_NAME_OR_PATH='xlm-roberta-large'
 DATASET_NAME='presencesw/snli'
 DATASET='snli'
 OUTPUT_DIR='output/xlm-roberta-large/snli'
-RUN_NAME="xlm-roberta-large--snli_TEST"
+RUN_NAME="xlm-roberta-large--snli_5e-06"
 HF_TOKEN='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'
 BZ=15
 GRA_ACC=5
@@ -25,7 +25,7 @@ accelerate launch --num_processes 2 --gpu_ids 0,1 --config_file ds.yaml -m loss_
     --save_steps 100 \
     --eval_steps 100 \
     --logging_steps 100 \
-    --learning_rate 5e-05 \
+    --learning_rate 5e-06 \
     --evaluation_strategy 'steps' \
     --overwrite_output_dir \
     --loss_func_name 'cross' \
